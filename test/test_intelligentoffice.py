@@ -45,5 +45,12 @@ class TestIntelligentOffice(unittest.TestCase):
         self.office.manage_blinds_based_on_time()
         self.assertFalse(self.office.blinds_open)
 
+    @patch('RPi.GPIO.input')
+    def test_no_action_at_weekdays(self):
+        mock_time = datetime(2024, 1, 6, 8, 0, 0)
+        self.office.rtc.read_datetime.return_vale = mock_time
+        self.office.blinds_open = False
+        self.office.manage_blinds_based_on_time()
+        self.assertFalse(self.office.blinds_open)
 
 

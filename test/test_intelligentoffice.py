@@ -19,7 +19,7 @@ class TestIntelligentOffice(unittest.TestCase):
 
     @patch('RPi.GPIO.input')
     def test_check_quadrant_empty(self, mock_gpio_input):
-        mock_gpio.return_value = False
+        mock_gpio_input.return_value = False
         office = IntelligentOffice()
         result = office.check_quadrant_occupancy(15)
         self.assertFalse(result)

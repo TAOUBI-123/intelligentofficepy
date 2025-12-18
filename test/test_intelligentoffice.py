@@ -5,8 +5,10 @@ import mock.GPIO as GPIO
 from mock.SDL_DS3231 import SDL_DS3231
 from mock.adafruit_veml7700 import VEML7700
 from src.intelligentoffice import IntelligentOffice, IntelligentOfficeError
+import RPi.GPIO as GPIO
 import unittest
 from unittest.mock import patch, MagicMock
+from datetime import datetime
 
 class TestIntelligentOffice(unittest.TestCase):
 
@@ -24,4 +26,14 @@ class TestIntelligentOffice(unittest.TestCase):
         result = office.check_quadrant_occupancy(15)
         self.assertFalse(result)
 
+    @patch('RPi.GPIO.input')
+    def test_open_blinds_at_8_weekdays(self, mock_gpio_input):
+        self.office = IntelligentOffice()
+        self.office.rtc = MagicMock
+        self.office.change_servo_angle = MagicMock()
+        mock_time = datetime(2024, 1, 1, 8, 0, 0)
+        self.office.rtc.read_datetime.return_vale  = mock_time
+        self.office.blinds_open = False
+        self.office.manage_blinds_based_on_time()
+        self.assertTrue(self.office.blinds_open)
 

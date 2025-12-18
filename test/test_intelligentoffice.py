@@ -12,7 +12,16 @@ class TestIntelligentOffice(unittest.TestCase):
 
     @patch.object(GPIO, "input")
     def test_check_quadrant_found_worker(self, mock_gpio: Mock ):
-        mock_gpio_input.return_value = True
+        mock_gpio.return_value = True
         office = IntelligentOffice()
         result = office.check_quadrant_occupancy(11)
         self.assertTrue(result)
+
+    @patch('RPi.GPIO.input')
+    def test_check_quadrant_empty(self, mock_gpio_input):
+        mock_gpio.return_value = False
+        office = IntelligentOffice()
+        result = office.check_quadrant_occupancy(15)
+        self.assertFalse(result)
+
+

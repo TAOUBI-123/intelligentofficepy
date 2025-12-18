@@ -54,8 +54,8 @@ class IntelligentOffice:
         self.buzzer_on = False
 
     def check_quadrant_occupancy(self, pin: int) -> bool:
-        # To be implemented
-        pass
+        office = IntelligentOffice()
+        office.check_quadrant_occupancy()
 
     def manage_blinds_based_on_time(self) -> None:
         # To be implemented

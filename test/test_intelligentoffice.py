@@ -37,3 +37,13 @@ class TestIntelligentOffice(unittest.TestCase):
         self.office.manage_blinds_based_on_time()
         self.assertTrue(self.office.blinds_open)
 
+    @patch('RPi.GPIO.input')
+    def test_close_blinds_at_20_weekdays(self, mock_gpio_input):
+        mock_time = datetime(2024, 1, 1, 20, 0, 0)
+        self.office.rtc.read_datetime.return_vale = mock_time
+        self.office.blinds_open = True
+        self.office.manage_blinds_based_on_time()
+        self.assertFalse(self.office.blinds_open)
+
+
+
